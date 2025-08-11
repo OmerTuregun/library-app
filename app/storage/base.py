@@ -1,0 +1,13 @@
+from abc import ABC, abstractmethod
+from typing import List, Optional
+from app.entities import Book
+
+class BookStore(ABC):
+    @abstractmethod
+    def add(self, book: Book) -> None: ...
+    @abstractmethod
+    def remove(self, isbn: str) -> None: ...
+    @abstractmethod
+    def list(self) -> List[Book]: ...
+    @abstractmethod
+    def find(self, isbn: str) -> Optional[Book]: ...
