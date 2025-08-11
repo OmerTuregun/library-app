@@ -1,6 +1,6 @@
 FROM python:3.12-slim
 WORKDIR /app
-
+ENV PYTHONPATH=/app
 # TLS ve saat dilimi verileri (HTTPS için gerekli)
 RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates tzdata \
     && update-ca-certificates \

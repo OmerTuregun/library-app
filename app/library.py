@@ -20,7 +20,7 @@ class Library:
     def find_book(self, isbn: str) -> Optional[Book]:
         return self.store.find(isbn)
 
-    # --- ASENKRON: FastAPI'de kullan (endpoint içinde await et) ---
+    # --- ASENKRON: FastAPI için ---
     async def add_book_by_isbn_async(self, isbn: str) -> Book:
         book = await fetch_book_by_isbn(isbn)
         if not book:
@@ -28,7 +28,10 @@ class Library:
         self.add_book(book)
         return book
 
-    # --- SENKRON: Terminal/CLI için kullan ---
+    # --- SENKRON: CLI için ---
     def add_book_by_isbn(self, isbn: str) -> Book:
-        # Burayı CLI'da çağır; FastAPI tarafında _async olanı await et
-        return asyncio.run(self.add_book_by_isbn_async(isbn))
+        book = asyncio.run(fetch_book_by_isbn(isbn))  # fonksiyon ismi (modül değil)
+        if not book:
+            raise ValueError("Kitap bulunamadı veya API hatası.")
+        self.add_book(book)
+        return book
