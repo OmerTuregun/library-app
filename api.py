@@ -30,6 +30,12 @@ class BookUpdateIn(BaseModel):
     title: Optional[str] = None
     author: Optional[str] = None
 
+# root redirect
+from fastapi.responses import RedirectResponse
+@app.get("/", include_in_schema=False)
+def root():
+    return RedirectResponse(url="/docs")
+
 @app.get("/books", response_model=List[BookOut])
 def get_books():
     return [BookOut(**b.__dict__) for b in lib.list_books()]
