@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from fastapi import FastAPI, HTTPException
 from typing import List, Optional
-
+from fastapi.staticfiles import StaticFiles
 from app.library import Library
 import os
 
@@ -16,6 +16,8 @@ def build_library():
         return Library(JSONBookStore(os.getenv("JSON_FILE", "library.json")))
 
 app = FastAPI(title="Library API", version="1.1.0")
+app.mount("/ui", StaticFiles(directory="static", html=True), name="ui")
+
 lib = build_library()
 
 class BookOut(BaseModel):
